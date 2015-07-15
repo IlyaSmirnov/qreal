@@ -31,10 +31,14 @@
 
 #include "src/engine/items/startPosition.h"
 
+#include <iostream>
+#include <fstream>
+
 using namespace twoDModel::model;
 using namespace physics;
 using namespace kitBase::robotModel;
 using namespace kitBase::robotModel::robotParts;
+using namespace std;
 
 RobotModel::RobotModel(robotModel::TwoDRobotModel &robotModel
 		, const Settings &settings
@@ -50,12 +54,16 @@ RobotModel::RobotModel(robotModel::TwoDRobotModel &robotModel
 	, mMarker(Qt::transparent)
 	, mPhysicsEngine(nullptr)
 	, mStartPositionMarker(new items::StartPosition)
+	, file("C:/traces/trace.txt")
+	, stream(&file)
 {
+	file.open(QIODevice::WriteOnly);
 	reinit();
 }
 
 RobotModel::~RobotModel()
 {
+	file.close();
 	delete mPhysicsEngine;
 }
 
@@ -293,6 +301,8 @@ void RobotModel::recalculateParams()
 	nextStep();
 	countMotorTurnover();
 	countBeep();
+
+	stream << mPos.x() << ' ' << mPos.y() << endl;
 }
 
 void RobotModel::nextFragment()

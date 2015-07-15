@@ -21,6 +21,10 @@
 
 #include "twoDModel/twoDModelDeclSpec.h"
 
+#include <QFile>
+#include <QTextStream>
+#include <QString>
+
 class QGraphicsItem;
 
 namespace twoDModel {
@@ -190,6 +194,9 @@ private:
 	physics::PhysicsEngineBase *mPhysicsEngine;
 
 	items::StartPosition *mStartPositionMarker;  // Transfers ownership to QGraphicsScene
+
+	QFile file;
+	QTextStream stream;
 };
 
 }
